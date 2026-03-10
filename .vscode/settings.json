@@ -4,5 +4,11 @@
   "asm.showTerminalInDebugMode": true,
   "asm.deleteExeFileAfterRun": false,
   "asm.deleteObjFileAfterRun": false,
-  "asm.deleteLstFileAfterRun": false
+  "asm.deleteLstFileAfterRun": false,
+  "debug.openDebug": "openOnSessionStart",
+  "debug.internalConsoleOptions": "neverOpen",
+  "debug.openDisassemblyView": "always",
+  "debug.disassemblyView.showInstructionBytes": true,
+  "debug.disassemblyView.showSourceCode": true,
+  "terminal.integrated.enablePersistentSessions": true
 }
