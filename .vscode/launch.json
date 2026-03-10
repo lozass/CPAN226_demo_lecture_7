@@ -2,15 +2,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Intel NASM (Windows, gdb)",
+      "name": "Intel x64 (gdb)",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}\\Add.exe",
+      "program": "${workspaceFolder}\\intel\\Add_intel.exe",
       "cwd": "${workspaceFolder}",
-      "preLaunchTask": "Build Intel NASM (win64)",
+      "preLaunchTask": "Build Intel x64 (gcc as)",
       "MIMode": "gdb",
       "miDebuggerPath": "C:\\MinGW64\\bin\\gdb.exe",
-      "showDisassembly": "always",
       "stopAtEntry": true,
       "externalConsole": false,
       "setupCommands": [
@@ -22,17 +21,71 @@
       ]
     },
     {
-      "name": "ARM Cortex-M (Cortex-Debug template)",
+      "name": "ARM (QEMU + gdb)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}\\arm\\build\\add_arm.elf",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Prepare ARM QEMU Debug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:\\Program Files (x86)\\Arm GNU Toolchain arm-none-eabi\\14.2 rel1\\bin\\arm-none-eabi-gdb.exe",
+      "targetArchitecture": "arm",
+      "miDebuggerServerAddress": "127.0.0.1:1234",
+      "launchCompleteCommand": "exec-continue",
+      "stopAtEntry": false,
+      "externalConsole": false,
+      "setupCommands": [
+        {
+          "description": "Break at _start",
+          "text": "-break-insert _start",
+          "ignoreFailures": true
+        },
+        {
+          "description": "Break at main",
+          "text": "-break-insert main",
+          "ignoreFailures": true
+        }
+      ],
+      "postDebugTask": "Stop ARM QEMU"
+    },
+    {
+      "name": "ARM (Attach to running QEMU)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}\\arm\\build\\add_arm.elf",
+      "cwd": "${workspaceFolder}",
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:\\Program Files (x86)\\Arm GNU Toolchain arm-none-eabi\\14.2 rel1\\bin\\arm-none-eabi-gdb.exe",
+      "targetArchitecture": "arm",
+      "miDebuggerServerAddress": "127.0.0.1:1234",
+      "launchCompleteCommand": "exec-continue",
+      "stopAtEntry": false,
+      "externalConsole": false,
+      "setupCommands": [
+        {
+          "description": "Break at _start",
+          "text": "-break-insert _start",
+          "ignoreFailures": true
+        },
+        {
+          "description": "Break at main",
+          "text": "-break-insert main",
+          "ignoreFailures": true
+        }
+      ],
+      "postDebugTask": "Stop ARM QEMU"
+    },
+    {
+      "name": "ARM (Cortex-Debug + QEMU)",
       "type": "cortex-debug",
       "request": "launch",
-      "servertype": "openocd",
+      "servertype": "external",
       "cwd": "${workspaceFolder}",
-      "executable": "${workspaceFolder}/build/firmware.elf",
-      "configFiles": [
-        "interface/stlink.cfg",
-        "target/stm32f4x.cfg"
-      ],
-      "svdFile": "${workspaceFolder}/device.svd",
+      "preLaunchTask": "Prepare ARM QEMU Debug",
+      "postDebugTask": "Stop ARM QEMU",
+      "executable": "${workspaceFolder}/arm/build/add_arm.elf",
+      "gdbPath": "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/14.2 rel1/bin/arm-none-eabi-gdb.exe",
+      "gdbTarget": "127.0.0.1:1234",
       "runToEntryPoint": "main"
     }
   ]

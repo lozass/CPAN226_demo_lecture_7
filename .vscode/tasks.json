@@ -2,9 +2,9 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Build Intel NASM (win64)",
+      "label": "Build Intel x64 (gcc as)",
       "type": "shell",
-      "command": "gcc -g -x assembler \"${workspaceFolder}\\Add.asm\" -o \"${workspaceFolder}\\Add.exe\"",
+      "command": "gcc -g -x assembler \"${workspaceFolder}\\intel\\Add_intel.asm\" -o \"${workspaceFolder}\\intel\\Add_intel.exe\"",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -12,9 +12,66 @@
       "problemMatcher": []
     },
     {
-      "label": "Build ARM ASM (template)",
+      "label": "Build ARM ASM",
       "type": "shell",
-      "command": "arm-none-eabi-as -g \"${workspaceFolder}\\main.s\" -o \"${workspaceFolder}\\build\\main.o\"; arm-none-eabi-ld \"${workspaceFolder}\\build\\main.o\" -o \"${workspaceFolder}\\build\\firmware.elf\"",
+      "command": "$p = Get-Process qemu-system-arm -ErrorAction SilentlyContinue; if ($p) { $p | Stop-Process -Force -ErrorAction SilentlyContinue }; & 'C:\\Program Files (x86)\\Arm GNU Toolchain arm-none-eabi\\14.2 rel1\\bin\\arm-none-eabi-as.exe' -g \"${workspaceFolder}\\arm\\add_arm.s\" -o \"${workspaceFolder}\\arm\\build\\add_arm.o\"; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; & 'C:\\Program Files (x86)\\Arm GNU Toolchain arm-none-eabi\\14.2 rel1\\bin\\arm-none-eabi-ld.exe' -T \"${workspaceFolder}\\arm\\linker.ld\" -e Reset_Handler \"${workspaceFolder}\\arm\\build\\add_arm.o\" -o \"${workspaceFolder}\\arm\\build\\add_arm.elf\"; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; exit 0",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build ARM ASM (debug)",
+      "type": "shell",
+      "command": "$p = Get-Process qemu-system-arm -ErrorAction SilentlyContinue; if ($p) { $p | Stop-Process -Force -ErrorAction SilentlyContinue }; & 'C:\\Program Files (x86)\\Arm GNU Toolchain arm-none-eabi\\14.2 rel1\\bin\\arm-none-eabi-as.exe' --defsym DEBUG_BUILD=1 -g \"${workspaceFolder}\\arm\\add_arm.s\" -o \"${workspaceFolder}\\arm\\build\\add_arm.o\"; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; & 'C:\\Program Files (x86)\\Arm GNU Toolchain arm-none-eabi\\14.2 rel1\\bin\\arm-none-eabi-ld.exe' -T \"${workspaceFolder}\\arm\\linker.ld\" -e Reset_Handler \"${workspaceFolder}\\arm\\build\\add_arm.o\" -o \"${workspaceFolder}\\arm\\build\\add_arm.elf\"; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; exit 0",
+      "problemMatcher": []
+    },
+    {
+      "label": "Start ARM QEMU (gdb server)",
+      "type": "shell",
+      "command": "$p = Get-Process qemu-system-arm -ErrorAction SilentlyContinue; if ($p) { $p | Stop-Process -Force -ErrorAction SilentlyContinue }; Write-Output 'QEMU_READY'; & 'C:\\Program Files\\qemu\\qemu-system-arm.exe' -M lm3s6965evb -nographic -kernel \"${workspaceFolder}\\arm\\build\\add_arm.elf\" -semihosting-config enable=on,target=native -S -s",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": false,
+        "showReuseMessage": false,
+        "clear": false
+      },
+      "problemMatcher": {
+        "owner": "custom",
+        "fileLocation": [
+          "absolute"
+        ],
+        "pattern": {
+          "regexp": "^(?!x)x$",
+          "file": 1,
+          "location": 1,
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "QEMU_READY",
+          "endsPattern": "QEMU_READY"
+        }
+      }
+    },
+    {
+      "label": "Run ARM QEMU (console)",
+      "type": "shell",
+      "command": "& 'C:\\Program Files\\qemu\\qemu-system-arm.exe' -M lm3s6965evb -nographic -kernel \"${workspaceFolder}\\arm\\build\\add_arm.elf\" -semihosting-config enable=on,target=native",
+      "problemMatcher": []
+    },
+    {
+      "label": "Stop ARM QEMU",
+      "type": "shell",
+      "command": "$p = Get-Process qemu-system-arm -ErrorAction SilentlyContinue; if ($p) { $p | Stop-Process -Force -ErrorAction SilentlyContinue }; exit 0",
+      "problemMatcher": []
+    },
+    {
+      "label": "Prepare ARM QEMU Debug",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Build ARM ASM (debug)",
+        "Start ARM QEMU (gdb server)"
+      ],
       "problemMatcher": []
     }
   ]
