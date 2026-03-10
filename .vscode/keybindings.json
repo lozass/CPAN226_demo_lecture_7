@@ -1,0 +1,12 @@
+[
+  {
+    "key": "f5",
+    "command": "asm.debug",
+    "when": "editorTextFocus && resourceExtname == .asm"
+  },
+  {
+    "key": "f6",
+    "command": "asm.run",
+    "when": "editorTextFocus && resourceExtname == .asm"
+  }
+]

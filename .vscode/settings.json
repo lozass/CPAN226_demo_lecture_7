@@ -1,0 +1,8 @@
+{
+  "asm.showRunIconInEditorTitleMenu": true,
+  "asm.showRunCommandInEditorContextMenu": true,
+  "asm.showTerminalInDebugMode": true,
+  "asm.deleteExeFileAfterRun": false,
+  "asm.deleteObjFileAfterRun": false,
+  "asm.deleteLstFileAfterRun": false
+}

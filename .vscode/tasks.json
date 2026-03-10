@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Intel NASM (win64)",
+      "type": "shell",
+      "command": "gcc -g -x assembler \"${workspaceFolder}\\Add.asm\" -o \"${workspaceFolder}\\Add.exe\"",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build ARM ASM (template)",
+      "type": "shell",
+      "command": "arm-none-eabi-as -g \"${workspaceFolder}\\main.s\" -o \"${workspaceFolder}\\build\\main.o\"; arm-none-eabi-ld \"${workspaceFolder}\\build\\main.o\" -o \"${workspaceFolder}\\build\\firmware.elf\"",
+      "problemMatcher": []
+    }
+  ]
+}

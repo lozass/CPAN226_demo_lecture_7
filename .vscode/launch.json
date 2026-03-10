@@ -1,0 +1,39 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Intel NASM (Windows, gdb)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}\\Add.exe",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Build Intel NASM (win64)",
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:\\MinGW64\\bin\\gdb.exe",
+      "showDisassembly": "always",
+      "stopAtEntry": true,
+      "externalConsole": false,
+      "setupCommands": [
+        {
+          "description": "Use Intel syntax in disassembly",
+          "text": "-gdb-set disassembly-flavor intel",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
+      "name": "ARM Cortex-M (Cortex-Debug template)",
+      "type": "cortex-debug",
+      "request": "launch",
+      "servertype": "openocd",
+      "cwd": "${workspaceFolder}",
+      "executable": "${workspaceFolder}/build/firmware.elf",
+      "configFiles": [
+        "interface/stlink.cfg",
+        "target/stm32f4x.cfg"
+      ],
+      "svdFile": "${workspaceFolder}/device.svd",
+      "runToEntryPoint": "main"
+    }
+  ]
+}
