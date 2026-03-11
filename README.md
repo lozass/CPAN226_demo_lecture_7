@@ -99,6 +99,10 @@ Expected output in terminal:
 ### MIPS
 Run `mips/add_mips.s` using MARS or SPIM.
 
+### RISC-V
+Run `riscv/add_riscv.s` using RARS.
+
+
 Expected output:
 
 ```text

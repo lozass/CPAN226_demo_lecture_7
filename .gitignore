@@ -1,0 +1,13 @@
+# Build artifacts
+*.exe
+*.o
+*.elf
+intel/add_intel_linux
+arm/build/
+
+# Python virtual environment
+.venv/
+
+# OS generated files
+.DS_Store
+Thumbs.db
