@@ -1,4 +1,4 @@
-# Demo Lecture 6 - Intel, ARM, MIPS, and RISC-V Assembly
+# CENG356 - Lecture 7 Compare and Contrast - Intel, ARM, MIPS, and RISC-V Assembly
 
 ## Purpose
 
