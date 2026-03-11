@@ -1,5 +1,9 @@
 # Demo Lecture 6 - Intel, ARM, MIPS, and RISC-V Assembly
 
+## Purpose
+
+The purpose of this project is to compare the assembly language and and addressing modes of different processor architectures (Intel, ARM, MIPS, and RISC-V) using a very simple "business logic": add two signed numbers from two registers, then print the result to stdout. 
+
 This repository contains five assembly examples for the same numeric addition workflow:
 
 - `intel/Add_intel.asm`: x64 Intel-syntax GNU assembler program for Windows.
