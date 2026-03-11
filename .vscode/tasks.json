@@ -12,6 +12,69 @@
       "problemMatcher": []
     },
     {
+      "label": "Build Intel x64 (Linux via WSL)",
+      "type": "shell",
+      "command": "wsl.exe -d Ubuntu -- bash -lc 'set -e; gcc -g -nostdlib -no-pie -x assembler /mnt/c/Users/lozas/CPAN226/Demo_Lecture_6/intel/Add_intel_linux.s -o /mnt/c/Users/lozas/CPAN226/Demo_Lecture_6/intel/add_intel_linux'",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Intel x64 (Linux native)",
+      "type": "shell",
+      "command": "gcc -g -nostdlib -no-pie -x assembler \"${workspaceFolder}/intel/Add_intel_linux.s\" -o \"${workspaceFolder}/intel/add_intel_linux\"",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Intel x64 (Linux via WSL)",
+      "type": "shell",
+      "command": "wsl.exe -d Ubuntu -- bash -lc '/mnt/c/Users/lozas/CPAN226/Demo_Lecture_6/intel/add_intel_linux'",
+      "problemMatcher": []
+    },
+    {
+      "label": "Start Intel x64 Linux gdbserver (WSL)",
+      "type": "shell",
+      "command": "wsl.exe -d Ubuntu -- bash -lc 'pkill -f \"gdbserver .*:1235\" >/dev/null 2>&1 || true; if ! command -v gdbserver >/dev/null 2>&1; then echo \"ERROR: gdbserver is not installed in WSL Ubuntu. Run: sudo apt update ; sudo apt install -y gdbserver\"; exit 127; fi; echo GDBSERVER_READY; exec gdbserver --once :1235 /mnt/c/Users/lozas/CPAN226/Demo_Lecture_6/intel/add_intel_linux'",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true,
+        "showReuseMessage": false,
+        "clear": false
+      },
+      "problemMatcher": {
+        "owner": "custom",
+        "fileLocation": [
+          "absolute"
+        ],
+        "pattern": {
+          "regexp": "^(?!x)x$",
+          "file": 1,
+          "location": 1,
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "GDBSERVER_READY",
+          "endsPattern": "Listening on port 1235"
+        }
+      }
+    },
+    {
+      "label": "Stop Intel x64 Linux gdbserver (WSL)",
+      "type": "shell",
+      "command": "wsl.exe -d Ubuntu -- bash -lc 'pkill -f \"gdbserver .*:1235\" >/dev/null 2>&1 || true'",
+      "problemMatcher": []
+    },
+    {
+      "label": "Prepare Intel x64 Linux gdbserver Debug",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Build Intel x64 (Linux via WSL)",
+        "Start Intel x64 Linux gdbserver (WSL)"
+      ],
+      "problemMatcher": []
+    },
+    {
       "label": "Build ARM ASM",
       "type": "shell",
       "command": "$p = Get-Process qemu-system-arm -ErrorAction SilentlyContinue; if ($p) { $p | Stop-Process -Force -ErrorAction SilentlyContinue }; & 'C:\\Program Files (x86)\\Arm GNU Toolchain arm-none-eabi\\14.2 rel1\\bin\\arm-none-eabi-as.exe' -g \"${workspaceFolder}\\arm\\add_arm.s\" -o \"${workspaceFolder}\\arm\\build\\add_arm.o\"; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; & 'C:\\Program Files (x86)\\Arm GNU Toolchain arm-none-eabi\\14.2 rel1\\bin\\arm-none-eabi-ld.exe' -T \"${workspaceFolder}\\arm\\linker.ld\" -e Reset_Handler \"${workspaceFolder}\\arm\\build\\add_arm.o\" -o \"${workspaceFolder}\\arm\\build\\add_arm.elf\"; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; exit 0",

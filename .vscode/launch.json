@@ -21,6 +21,110 @@
       ]
     },
     {
+      "name": "Intel x64 Linux (WSL gdb)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "/mnt/c/Users/lozas/CPAN226/Demo_Lecture_6/intel/add_intel_linux",
+      "cwd": "/mnt/c/Users/lozas/CPAN226/Demo_Lecture_6",
+      "preLaunchTask": "Build Intel x64 (Linux via WSL)",
+      "MIMode": "gdb",
+      "stopAtEntry": true,
+      "externalConsole": false,
+      "pipeTransport": {
+        "pipeProgram": "wsl.exe",
+        "pipeArgs": ["-d", "Ubuntu"],
+        "quoteArgs": false,
+        "pipeCwd": "${workspaceFolder}",
+        "debuggerPath": "/usr/bin/gdb"
+      },
+      "sourceFileMap": {
+        "C:\\Users\\lozas\\CPAN226\\Demo_Lecture_6": "/mnt/c/Users/lozas/CPAN226/Demo_Lecture_6",
+        "/mnt/c/Users/lozas/CPAN226/Demo_Lecture_6": "${workspaceFolder}"
+      },
+      "setupCommands": [
+        {
+          "description": "Allow pending breakpoints",
+          "text": "-gdb-set breakpoint pending on",
+          "ignoreFailures": true
+        },
+        {
+          "description": "Break at assembly entry",
+          "text": "-break-insert _start",
+          "ignoreFailures": true
+        },
+        {
+          "description": "Use Intel syntax in disassembly",
+          "text": "-gdb-set disassembly-flavor intel",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
+      "name": "Intel x64 Linux (Remote WSL)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/intel/add_intel_linux",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Build Intel x64 (Linux native)",
+      "MIMode": "gdb",
+      "miDebuggerPath": "/usr/bin/gdb",
+      "stopAtEntry": true,
+      "externalConsole": false,
+      "setupCommands": [
+        {
+          "description": "Use Intel syntax in disassembly",
+          "text": "-gdb-set disassembly-flavor intel",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
+      "name": "Intel x64 Linux (WSL gdbserver attach)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "/mnt/c/Users/lozas/CPAN226/Demo_Lecture_6/intel/add_intel_linux",
+      "cwd": "/mnt/c/Users/lozas/CPAN226/Demo_Lecture_6",
+      "preLaunchTask": "Prepare Intel x64 Linux gdbserver Debug",
+      "postDebugTask": "Stop Intel x64 Linux gdbserver (WSL)",
+      "MIMode": "gdb",
+      "miDebuggerServerAddress": "127.0.0.1:1235",
+      "launchCompleteCommand": "exec-continue",
+      "stopAtEntry": false,
+      "pipeTransport": {
+        "pipeProgram": "wsl.exe",
+        "pipeArgs": ["-d", "Ubuntu"],
+        "quoteArgs": false,
+        "pipeCwd": "${workspaceFolder}",
+        "debuggerPath": "/usr/bin/gdb"
+      },
+      "sourceFileMap": {
+        "C:\\Users\\lozas\\CPAN226\\Demo_Lecture_6": "/mnt/c/Users/lozas/CPAN226/Demo_Lecture_6",
+        "/mnt/c/Users/lozas/CPAN226/Demo_Lecture_6": "${workspaceFolder}"
+      },
+      "setupCommands": [
+        {
+          "description": "Load symbols",
+          "text": "-file-exec-and-symbols /mnt/c/Users/lozas/CPAN226/Demo_Lecture_6/intel/add_intel_linux",
+          "ignoreFailures": false
+        },
+        {
+          "description": "Allow pending breakpoints",
+          "text": "-gdb-set breakpoint pending on",
+          "ignoreFailures": true
+        },
+        {
+          "description": "Break at entry",
+          "text": "-break-insert _start",
+          "ignoreFailures": false
+        },
+        {
+          "description": "Use Intel syntax in disassembly",
+          "text": "-gdb-set disassembly-flavor intel",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
       "name": "ARM (QEMU + gdb)",
       "type": "cppdbg",
       "request": "launch",
